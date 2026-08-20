@@ -6,76 +6,114 @@
 #include "file.h"
 
 int found, i, j, len, choice, count, c, attempts;
+int mysort(const void *a ,const void *b)
+{
+    const AddressBook *ptr=a;
+    const AddressBook *ptr2=b;
+    return strcmp(ptr->contacts->name,ptr2->contacts->name);
 
+}
+int my_sort(const void *a ,const void *b)
+{
+    const AddressBook *ptr=a;
+    const AddressBook *ptr2=b;
+    return strcmp(ptr->contacts->phone,ptr2->contacts->phone);
+
+}
+int msort(const void *a ,const void *b)
+{
+    const AddressBook *ptr=a;
+    const AddressBook *ptr2=b;
+    return strcmp(ptr->contacts->email,ptr2->contacts->email);
+
+}
+int print(AddressBook *addressBook)
+{
+    printf("Index\tname\t\tphone number\tmail id\n");
+    for (i = 0; i < addressBook->contactCount; i++)
+    {
+        printf("%d\t%s\t%s\t%s\n",i + 1,addressBook->contacts[i].name, addressBook->contacts[i].phone,addressBook->contacts[i].email);  // printing all contact (sort based on name)
+        
+    }
+        printf("\n---------------------\n");
+}
 void listContacts(AddressBook *addressBook, int sortCriteria)
 {
-   
     switch (sortCriteria)
     {
         case 1:
             printf("sorting based on name\n");
-            for (i = 0; i < addressBook->contactCount - 1; i++)                // sorting based on name
-            {
-                for (j = 0; j < addressBook->contactCount - i - 1; j++)
-                {
-                    if (strcasecmp(addressBook->contacts[j].name, addressBook->contacts[j+1].name) > 0)   // by using bubble sort
-                    {
-                        Contact temp = addressBook->contacts[j];
-                        addressBook->contacts[j] = addressBook->contacts[j+1];
-                        addressBook->contacts[j+1] = temp;
-                    }                                                                                       // swapping the contacts
-                }
-            }
-            printf("Index\tname\t\tphone number\tmail id\n");
-            for (i = 0; i < addressBook->contactCount; i++)
-            {
-                printf("%d\t%s\t%s\t%s\n",i + 1,addressBook->contacts[i].name, addressBook->contacts[i].phone,addressBook->contacts[i].email);  // printing all contact (sort based on name)
-                 printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
-            }
+            qsort(addressBook->contacts,addressBook->contactCount,sizeof(addressBook->contacts[i]),mysort);
+            print(addressBook);
+            // for (i = 0; i < addressBook->contactCount - 1; i++)                // sorting based on name
+            // {
+            //     for (j = 0; j < addressBook->contactCount - i - 1; j++)
+            //     {
+            //         if (strcasecmp(addressBook->contacts[j].name, addressBook->contacts[j+1].name) > 0)   // by using bubble sort
+            //         {
+            //             Contact temp = addressBook->contacts[j];
+            //             addressBook->contacts[j] = addressBook->contacts[j+1];
+            //             addressBook->contacts[j+1] = temp;
+            //         }                                                                                       // swapping the contacts
+            //     }
+            // }
+            // printf("Index\tname\t\tphone number\tmail id\n");
+            // for (i = 0; i < addressBook->contactCount; i++)
+            // {
+            //     printf("%d\t%s\t%s\t%s\n",i + 1,addressBook->contacts[i].name, addressBook->contacts[i].phone,addressBook->contacts[i].email);  // printing all contact (sort based on name)
+               
+            // }
+            //   printf("\n---------------------\n");
             break;
 
         case 2:                                                                                                     // sorting based on phone number
             printf("Sorting based on phone number\n");
-            for (i = 0; i < addressBook->contactCount - 1; i++)
-            {
-                for (j = 0; j < addressBook->contactCount - i - 1; j++)                            // bubble sort
-                {
-                    if (strcasecmp(addressBook->contacts[j].phone, addressBook->contacts[j+1].phone) > 0)
-                    {
-                        Contact temp = addressBook->contacts[j];                                                                                // swapping
-                        addressBook->contacts[j] = addressBook->contacts[j+1];
-                        addressBook->contacts[j+1] = temp;
-                    }
-                }
-            }
-            printf("Index\tname\tphone number\tmail id\n");
-            for (i = 0; i < addressBook->contactCount; i++)
-            {
-				printf("%d\t%s\t%s\t%s\n",i + 1,addressBook->contacts[i].name, addressBook->contacts[i].phone,addressBook->contacts[i].email);  // printing all contact (sort based on phone)
-                 printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
-            }
+            qsort(addressBook->contacts,addressBook->contactCount,sizeof(addressBook->contacts[i]),my_sort);
+            print(addressBook);
+            // for (i = 0; i < addressBook->contactCount - 1; i++)
+            // {
+            //     for (j = 0; j < addressBook->contactCount - i - 1; j++)                            // bubble sort
+            //     {
+            //         if (strcasecmp(addressBook->contacts[j].phone, addressBook->contacts[j+1].phone) > 0)
+            //         {
+            //             Contact temp = addressBook->contacts[j];                                                                                // swapping
+            //             addressBook->contacts[j] = addressBook->contacts[j+1];
+            //             addressBook->contacts[j+1] = temp;
+            //         }
+            //     }
+            // }
+            // printf("Index\tname\tphone number\tmail id\n");
+            // for (i = 0; i < addressBook->contactCount; i++)
+            // {
+			// 	printf("%d\t%s\t%s\t%s\n",i + 1,addressBook->contacts[i].name, addressBook->contacts[i].phone,addressBook->contacts[i].email);  // printing all contact (sort based on phone)
+                 
+            // }
+            // printf("\n---------------------\n");
             break;
 
         case 3:
             printf("sorting based on email\n");
-            for (i = 0; i < addressBook->contactCount - 1; i++)                                                                 // sorting based on email
-            {
-                for (j = 0; j < addressBook->contactCount - i - 1; j++)                     // bubble sort
-                {
-                    if (strcasecmp(addressBook->contacts[j].email, addressBook->contacts[j+1].email) > 0)
-                    {                                                                                                   // swapping
-                        Contact temp = addressBook->contacts[j];
-                        addressBook->contacts[j] = addressBook->contacts[j+1];
-                        addressBook->contacts[j+1] = temp;
-                    }
-                }
-            }
-            printf("Index\tname\t\tphone number\tmail id\n");
-            for (i = 0; i < addressBook->contactCount; i++)
-            {
-				printf("%d\t%s\t%s\t%s\n",i + 1,addressBook->contacts[i].name, addressBook->contacts[i].phone,addressBook->contacts[i].email);  // printing all contact (sort based on email)
-                 printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
-            }
+            qsort(addressBook->contacts,addressBook->contactCount,sizeof(addressBook->contacts[i]),msort);
+            print(addressBook);
+            // for (i = 0; i < addressBook->contactCount - 1; i++)                                                                 // sorting based on email
+            // {
+            //     for (j = 0; j < addressBook->contactCount - i - 1; j++)                     // bubble sort
+            //     {
+            //         if (strcasecmp(addressBook->contacts[j].email, addressBook->contacts[j+1].email) > 0)
+            //         {                                                                                                   // swapping
+            //             Contact temp = addressBook->contacts[j];
+            //             addressBook->contacts[j] = addressBook->contacts[j+1];
+            //             addressBook->contacts[j+1] = temp;
+            //         }
+            //     }
+            // }
+            // printf("Index\tname\t\tphone number\tmail id\n");
+            // for (i = 0; i < addressBook->contactCount; i++)
+            // {
+			// 	printf("%d\t%s\t%s\t%s\n",i + 1,addressBook->contacts[i].name, addressBook->contacts[i].phone,addressBook->contacts[i].email);  // printing all contact (sort based on email)
+               
+            // }
+            //   printf("\n---------------------\n");
             break;
 
         case 4:
@@ -83,7 +121,7 @@ void listContacts(AddressBook *addressBook, int sortCriteria)
         default:
             printf("invalid input\n");
             break;
-        printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+        printf("\n---------------------\n");
     }
 }
 
@@ -104,6 +142,7 @@ int namevalidation(AddressBook *addressBook, char name_dup[])            // name
     attempts = 0;
     while (attempts < 2)
     {
+        getchar();
         printf("Enter the name : ");
         int valid = 1;
         if (!scanf(" %[^\n]", name_dup))
@@ -344,7 +383,7 @@ int emailvalidation(AddressBook *addressBook, char email_dup[])                 
 
 void createContact(AddressBook *addressBook)                                                // create contact
 {
-     printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
+    printf("\n-----------------------\n");
     char name_dup[100];                                                                                   // creating duplicate name & phone & email
     char phone_dup[100];
     char email_dup[100];
@@ -363,7 +402,6 @@ void createContact(AddressBook *addressBook)                                    
         printf("Invalid choice : please try again\n");
         return;
     }
-
     switch(choice)
     {
         case 1:
@@ -390,7 +428,7 @@ void createContact(AddressBook *addressBook)                                    
                 strcpy(addressBook->contacts[index].email, email_dup);
                 addressBook->contactCount++;                             
                 printf("CONTACT ADDED:\nname   :%s\nnumber :%s\nemail  :%s\n", addressBook->contacts[index].name, addressBook->contacts[index].phone, addressBook->contacts[index].email);
-                 printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+                printf("\n---------------------\n");
                 break;
             }
             else if(ch=='n')
@@ -399,17 +437,17 @@ void createContact(AddressBook *addressBook)                                    
             }
             break;
         case 2:
-         printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");    
+         printf("\n---------------------\n");    
         break;
         default:
             printf("Invalid choice :  please try again\n");
-             printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+            printf("\n---------------------\n");
             return;
     }
 }
 void searchContact(AddressBook *addressBook)                    // search contact
 {
-     printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
+    printf("\n-----------------------\n");
     char search_char[100];
     found = 0;                                                  // two case for search and exit 
     printf("1. Search contact\n");
@@ -440,7 +478,7 @@ void searchContact(AddressBook *addressBook)                    // search contac
                     if ((strstr(addressBook->contacts[i].name, search_char)) || (strstr(addressBook->contacts[i].phone, search_char)) || (strstr(addressBook->contacts[i].email, search_char)))
                     {
                         printf("%d\t%s\t%s\t%s\n",i+1, addressBook->contacts[i].name, addressBook->contacts[i].phone, addressBook->contacts[i].email);
-                         printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+                         printf("\n---------------------\n");
                         found = 1;
                     }
                 }
@@ -461,7 +499,7 @@ void searchContact(AddressBook *addressBook)                    // search contac
             }
             break;
         case 2:
-         printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");                                                                     // exit
+         printf("\n---------------------\n");                                                                     // exit
             break;
         default:
             printf("Invalid input\n");
@@ -472,7 +510,7 @@ void searchContact(AddressBook *addressBook)                    // search contac
 
 void editContact(AddressBook *addressBook)                                              // edit contact 
 {
-     printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
+     printf("\n-----------------------\n");
     if (addressBook->contactCount == 0) 
     {
         printf("No contacts available to edit.\n");
@@ -513,8 +551,7 @@ void editContact(AddressBook *addressBook)                                      
     {
         printf("Invalid input\n");
         return;
-    }
-                                                                                            //comparing with previous contact details
+    }                                                                                           //comparing with previous contact details
     found = 0;
     for (i = 0; i < addressBook->contactCount; i++)
     {
@@ -579,8 +616,9 @@ void editContact(AddressBook *addressBook)                                      
     }
 
     if (choice == 5)
+    {
         return;
-
+    }
     switch (choice)
     {
         case 1:
@@ -655,7 +693,7 @@ void editContact(AddressBook *addressBook)                                      
     }
 
     printf("Contact updated:\nName: %s\nPhone: %s\nEmail: %s\n",addressBook->contacts[selectedIndex].name,addressBook->contacts[selectedIndex].phone,addressBook->contacts[selectedIndex].email);   // displaying to the terminal
-     printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+     printf("\n---------------------\n");
 }
 
 void deleteContact(AddressBook *addressBook)                        // delete contact
@@ -665,7 +703,7 @@ void deleteContact(AddressBook *addressBook)                        // delete co
     int matchedIndexes[MAX_CONTACTS];
     int matchCount = 0;
     char ch;
-    printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
+    printf("\n-----------------------\n");
     printf("1. continue to delete contact\n");
     printf("2. exit\n");
     printf("enter choice : ");
@@ -729,13 +767,13 @@ void deleteContact(AddressBook *addressBook)                        // delete co
         }
         addressBook->contactCount--;
         printf("Contact deleted successfully.\n");         // reducing the size of contacts
-         printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+         printf("\n---------------------\n");
         return;
     }
     else if (ch != 'n')
     {
         printf("invalid input\n");
-         printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+         printf("\n---------------------\n");
         return;                                             // exit
     }
      

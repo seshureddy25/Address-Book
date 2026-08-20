@@ -96,7 +96,7 @@ int main() {
                 deleteContact(&addressBook);                       // calling delete contact to delete contact
                 break;
             case 5:
-              printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
+              printf("\n------------------------\n\n");
                 printf("Select sort criteria:\n");
                 printf("1. Sort by name\n");
                 printf("2. Sort by phone\n");
